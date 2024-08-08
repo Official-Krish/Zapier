@@ -8,7 +8,7 @@ import { JWT_SECRET } from "../config";
 const router = Router()
 
 router.post("/signup", async(req, res) => {
-    const body = req.body.username;
+    const body = req.body;
     const parsedData = SignupSchema.safeParse(body);
 
     if(!parsedData.success) {
@@ -38,8 +38,8 @@ router.post("/signup", async(req, res) => {
     return res.json({message: "Please verify your email"});
 });
 
-router.post("signin", async (req, res) => {
-    const body = req.body.username;
+router.post("/signin", async (req, res) => {
+    const body = req.body;
     const parsedData = SigninSchema.safeParse(body);
 
     if(!parsedData.success) {
