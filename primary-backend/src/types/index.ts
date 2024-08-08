@@ -10,3 +10,12 @@ export const SigninSchema = z.object({
     username: z.string(),
     password: z.string(),
 })
+
+export const zapSchema = z.object({
+    availableTriggerId : z.string(),
+    triggerMetaData: z.any().optional(), //TODO: Fix the type
+    actions : z.array(z.object({
+        availableActionId: z.string(),
+        actionMetadata: z.any().optional()
+    }))
+});
