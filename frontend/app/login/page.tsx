@@ -6,6 +6,7 @@ import { CheckFeature } from "../components/checkFeature";
 import { Input } from "../components/input";
 import { PrimaryButton } from "../components/buttons/primaryBtn";
 import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 export default function() {
     const router = useRouter();
@@ -39,9 +40,9 @@ export default function() {
 
                     <div className="pt-4">
                         <PrimaryButton onClick={async () => {
-                            const res =  await axios.post(process.env.BACKEND_URL + "/api/v1/user/signin", {
-                                username : email,
-                                password : password
+                            const res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
+                                username: email,
+                                password,
                             });
                             localStorage.setItem("token", res.data.token);
                             router.push("/dashboard");
