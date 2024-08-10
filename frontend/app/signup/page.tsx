@@ -5,6 +5,7 @@ import { Appbar } from "../components/Appbar";
 import { CheckFeature } from "../components/checkFeature";
 import { Input } from "../components/input";
 import { PrimaryButton } from "../components/buttons/primaryBtn";
+import axios from "axios";
 
 export default function() {
     const router = useRouter();
@@ -42,6 +43,11 @@ export default function() {
 
                     <div className="pt-4">
                         <PrimaryButton onClick={async () => {
+                            const res =  await axios.post(process.env.BACKEND_URL + "/api/v1/user/signup", {
+                                name : name,
+                                username : email,
+                                password : password
+                            });
                             router.push("/login");
                         }} size="big">Get started free</PrimaryButton>
                     </div>
