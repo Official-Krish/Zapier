@@ -17,6 +17,9 @@ const config: Config = {
         slate: {
           100: "#ebe9df"
         },
+        purple:{
+          100: "#3e4592"
+        }
       }
     },
   },
