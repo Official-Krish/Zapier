@@ -77,7 +77,6 @@ router.get("/", Middleware_1.authMiddleware, (req, res) => __awaiter(void 0, voi
             }
         }
     });
-    console.log(zaps);
     return res.json({
         zaps
     });
