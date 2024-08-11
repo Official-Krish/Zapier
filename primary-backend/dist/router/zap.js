@@ -58,14 +58,9 @@ router.post("/", Middleware_1.authMiddleware, (req, res) => __awaiter(void 0, vo
     });
 }));
 router.get("/", Middleware_1.authMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    //@ts-ignore
+    // @ts-ignore
     const id = req.id;
     const zaps = yield db_1.prismaClient.zap.findMany({
-        where: {
-            userId: id
-        }
-    });
-    db_1.prismaClient.zap.findMany({
         where: {
             userId: id
         },
@@ -80,9 +75,12 @@ router.get("/", Middleware_1.authMiddleware, (req, res) => __awaiter(void 0, voi
                     type: true
                 }
             }
-        },
+        }
     });
-    return res.json(zaps);
+    console.log(zaps);
+    return res.json({
+        zaps
+    });
 }));
 router.get("/:zapId", Middleware_1.authMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //@ts-ignore
