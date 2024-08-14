@@ -17,7 +17,7 @@ export const Appbar = () => {
     const toggleSideBar = () => setsidebarOpen(prev => !prev)
 
     return (
-        <div className="flex border-b justify-between py-2 px-4 items-center">
+        <div className="flex border-b justify-between py-2 px-4 items-center" >
             <div className="flex flex-col justify-center text-2xl font-bold">
             <div className="flex">
             {localStorage.getItem("token") !== null ? (
@@ -25,7 +25,7 @@ export const Appbar = () => {
                     <div onClick={toggleSideBar} className="cursor-pointer px-4 py-1">
                         <Menu />
                     </div>
-                    {sidebarOpen && <Sidebar />}
+                    {sidebarOpen && <Sidebar onClose={toggleSideBar} />}
                     <div>
                         Zapier
                     </div>
