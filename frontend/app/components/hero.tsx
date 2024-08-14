@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation"
 import { PrimaryButton } from "./buttons/primaryBtn"
 import { SecondaryButton } from "./buttons/secondaryBtn"
 import { Features } from "./features"
+import { GoogleIcon } from "./icons/google"
 
 export const Hero = () => {
     const router = useRouter();
@@ -19,15 +20,26 @@ export const Hero = () => {
         </div>
 
         <div className="flex pt-8 justify-center items-center">
-            <PrimaryButton size="big" onClick={() => {router.push("/signup")}}>
-                Start free with email
-            </PrimaryButton>
-            
-            <div className="pl-4">
-                <SecondaryButton size="big" onClick={() => {}}>
-                    Start free with Google 
-                </SecondaryButton>
-            </div>
+
+
+            {localStorage.getItem("token") !== null ?(
+                <PrimaryButton size="big" onClick={() => {router.push("/dashboard")}}>
+                    Go to dashboard
+                </PrimaryButton>
+            ):(
+                <div className="flex pt-8 justify-center items-center">
+                    <PrimaryButton size="big" onClick={() => {router.push("/signup")}}>
+                        Start free with email
+                    </PrimaryButton>
+                
+                    <div className="pl-4">
+                        <SecondaryButton size="big" logo = {<GoogleIcon/>} onClick={() => {}}>
+                            Start free with Google 
+                        </SecondaryButton>
+                    </div>
+                </div>
+            )}
+
             
         </div>
 
