@@ -3,6 +3,7 @@ import { authMiddleware } from "../Middleware";
 import { SignupSchema, SigninSchema } from "../types";
 import { prismaClient } from "../db";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { JWT_SECRET } from "../config";
 
 const router = Router()
@@ -10,6 +11,7 @@ const router = Router()
 router.post("/signup", async(req, res) => {
     const body = req.body;
     const parsedData = SignupSchema.safeParse(body);
+    const hashedPassword = await bcrypt.hash(body.password, 10);
 
     if(!parsedData.success) {
         return res.status(400).json({error: "Invalid data"});
@@ -28,8 +30,7 @@ router.post("/signup", async(req, res) => {
     await prismaClient.user.create({
         data: {
             email: parsedData.data.username,
-            //hash password
-            password: parsedData.data.password,
+            password: hashedPassword,
             name: parsedData.data.username
         }
     })
@@ -46,24 +47,33 @@ router.post("/signin", async (req, res) => {
         return res.status(400).json({error: "Invalid data"});
     }
 
-    const user = await prismaClient.user.findFirst({
-        where: {
-            email: parsedData.data.username,
-            password: parsedData.data.password 
+    try {
+        const user = await prismaClient.user.findFirst({
+            where: {
+                email: parsedData.data.username
+            }
+        });
+
+        if (!user) {
+            return res.status(400).json({error: "user not found"});
         }
-    });
 
-    if(!user) {
-        return res.status(400).json({error: "Invalid credentials"});
+        const isPasswordMatch = await bcrypt.compare(parsedData.data.password, user.password);
+
+        if (isPasswordMatch) {
+            const token = jwt.sign({
+                id: user.id,
+            }, JWT_SECRET);
+        
+            res.json({token});
+        } else {
+            res.json({error: "Invalid password"});
+        }
+    } catch (err) {
+        console.error('Error authenticating user:', err);
     }
-
-    const token = jwt.sign({
-        id: user.id,
-    }, JWT_SECRET);
-
-    res.json({token});
-
 });
+
 
 router.get("/", authMiddleware, async (req, res) => {
     // TODO: Fix the type
