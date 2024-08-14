@@ -93,7 +93,7 @@ function ZapTable({ zaps }: {zaps: Zap[]}) {
             <div className="flex-1">{z.id}</div>
             <div className="flex-1">{z.id}</div>
             <div className="flex-1">Nov 13, 2023</div>
-            <div className="flex-1">{`${HOOKS_URL}/hooks/catch/${z.id}`}</div>
+            <div className="flex-1">{`${HOOKS_URL}/hooks/catch/${z.userId}/${z.id}`}</div>
             <div className="flex-1"><LinkButton onClick={() => {
                     router.push("/zap/" + z.id)
                 }}>Go</LinkButton>
