@@ -1,23 +1,31 @@
+import { useRef } from 'react';
 
 const Dropdown = () => {
-    return (
-        <div id="dropdownHover" className="z-10 bg-black divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute">
-            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-                <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                </li>
-                <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                </li>
-                <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                </li>
-                <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
-                </li>
-            </ul>
-        </div>
-    )
-}
+  const ref = useRef<HTMLDivElement>(null);
 
-export default Dropdown
+  return (
+    <div className="relative cursor-pointer">
+        <div
+          ref={ref}
+          className="absolute -bottom-32 -left-28  bg-gray-700 border  border-gray-100 z-50 w-[160px] rounded-lg shadow"
+        >
+          <div className="flex flex-col text-gray-200">
+            <div className="px-4 py-2 hover:bg-gray-600" >
+              Profile
+            </div>
+            <div className="px-4 py-2 hover:bg-gray-600" >
+              Settings
+            </div>
+            <div className="px-4 py-2 hover:bg-gray-600" onClick={() => {
+                localStorage.removeItem("token")
+                window.location.reload()
+            }}>
+              Logout
+            </div>
+          </div>
+        </div>
+    </div>
+  );
+};
+
+export default Dropdown;
