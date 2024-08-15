@@ -67,6 +67,38 @@ router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 }));
+router.post("/verify-user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const token = req.body.token;
+        const activationCode = req.body.activationCode;
+        const decoded = jsonwebtoken_1.default.verify(token, config_1.JWT_SECRET);
+        console.log("decoded", decoded);
+        const user = decoded.user;
+        console.log("user", user);
+        console.log("activationCode", activationCode);
+        const userExists = yield db_1.prismaClient.user.findFirst({
+            where: {
+                email: user.email,
+            },
+        });
+        if (userExists) {
+            return res.status(403).json({
+                message: "User already exists",
+            });
+        }
+        const hashedPassword = (yield bcrypt_1.default.hash(user.password, 10));
+        yield db_1.prismaClient.user.create({
+            data: {
+                email: user.email,
+                password: hashedPassword,
+                name: user.name,
+                isVerified: true,
+            },
+        });
+        return res.status(200).json({ message: "registered successfully" });
+    }
+    catch (error) { }
+}));
 router.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     const parsedData = types_1.SigninSchema.safeParse(body);
