@@ -20,6 +20,8 @@ const db_1 = require("../db");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config");
+const activationtoken_1 = require("../utils/activationtoken");
+const sendEmail_1 = __importDefault(require("../utils/sendEmail"));
 const router = (0, express_1.Router)();
 router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
@@ -36,15 +38,34 @@ router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (userExist) {
         return res.status(400).json({ error: "User already exist" });
     }
-    yield db_1.prismaClient.user.create({
-        data: {
-            email: parsedData.data.username,
-            password: hashedPassword,
-            name: parsedData.data.username
-        }
-    });
-    //send email verification
-    return res.json({ message: "Please verify your email" });
+    const user = {
+        name: parsedData.data.name,
+        email: parsedData.data.username,
+        password: parsedData.data.password,
+    };
+    console.log(user.email);
+    try {
+        const activationToken = (0, activationtoken_1.createActivationToken)(user);
+        const activationCode = activationToken.activationCode;
+        const data = { user: { name: user.name }, activationCode };
+        yield (0, sendEmail_1.default)({
+            email: user.email,
+            message: ` Hi <span>${user.name}</span> Your  activation Code is <p>${activationCode} </p> Please activate Your Account  `,
+            subject: "Email Verification",
+        });
+        return res.status(201).json({
+            success: true,
+            message: `Please check your email: ${user.email} `,
+            token: activationToken.token,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: `Internal server error: ${error.message}`,
+        });
+    }
 }));
 router.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
