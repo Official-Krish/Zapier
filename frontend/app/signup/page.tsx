@@ -7,12 +7,14 @@ import { Input } from "../components/input";
 import { PrimaryButton } from "../components/buttons/primaryBtn";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { useAuth } from "../context/Context";
 
 export default function() {
     const router = useRouter();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { token, setToken } = useAuth();
 
     return <div> 
         <Appbar />
@@ -49,7 +51,8 @@ export default function() {
                                 username: email,
                                 password,
                             });
-                            router.push("/login");
+                            setToken(res.data.token);
+                            router.push("/verify");
                         }} size="big">Get started free</PrimaryButton>
                     </div>
                 </div>
