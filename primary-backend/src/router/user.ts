@@ -13,7 +13,6 @@ const router = Router()
 router.post("/signup", async(req, res) => {
     const body = req.body;
     const parsedData = SignupSchema.safeParse(body);
-    const hashedPassword = await bcrypt.hash(body.password, 10);
 
     if(!parsedData.success) {
         return res.status(400).json({error: "Invalid data"});
@@ -82,7 +81,7 @@ router.post("/verify-user", async (req, res) => {
         });
         if (userExists) {
             return res.status(403).json({
-            message: "User already exists",
+                message: "User already exists",
             });
         }
     
@@ -99,8 +98,10 @@ router.post("/verify-user", async (req, res) => {
                 isVerified: true,
             },
         });
-        return res.status(200).json({ message: "registered successfully" });
-    } catch (error) {}
+        return res.status(200).json({ message: "registered successfully", token });
+    } catch (error) {
+        res.status(400).json({ message: "You have entered the wrong code. Please try again." });
+    }
 });
 
 router.post("/signin", async (req, res) => {
