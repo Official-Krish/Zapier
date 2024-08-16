@@ -11,6 +11,8 @@ export default function () {
     const [step, setStep] = useState(0);
     const [activationCode, setActivationCode] = useState("");
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const router = useRouter();
 
     return <div>
@@ -71,31 +73,82 @@ export default function () {
                 ></Input>
     
                 <div className="pt-10">
-                  <PrimaryButton
-                    onClick={async () => {
-                      const res = await axios.post(
-                        `${BACKEND_URL}/api/v1/user/password-reset`,
-                        {
-                          activationCode: activationCode,
-                        }
-                      );
-                      {res.status === 200 ? (
-                        localStorage.setItem("token", res.data.token),
-                        router.push("/"))
-                        :(
-                        <div className="text-center text-red-700">
-                          <h1>Invalid code</h1>
-                        </div>
-                      )}
-                    }}
+                    <PrimaryButton
+                        onClick={async () => {
+                            const res = await axios.post(
+                                `${BACKEND_URL}/api/v1/user/password-reset-verify`,
+                                {
+                                    activationCode: activationCode,
+                                }
+                            );
+                            {res.status === 200 ? (
+                                setStep(3)):(
+                                <div className="text-center text-red-700">
+                                    <h1>Invalid code</h1>
+                                </div>
+                            )}
+                        }}
                     size="big"
-                  >
-                    Verify
-                  </PrimaryButton>
+                    >
+                        Verify
+                    </PrimaryButton>
                 </div>
               </div>
             </div>
           </div>
         }
+
+        {step === 2 &&
+        <div>
+            <div className="flex justify-center">
+                <div className="flex pt-8 max-w-4xl">
+                    <div className="flex-1 pt-6 pb-6 mt-12 px-4 border rounded w-96 h-80">
+                        <h1 className="font-semibold text-2xl text-center pb-6">
+                            Enter your new password
+                        </h1>
+                        <Input
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                            }}
+                            label={""}
+                            type="password"
+                            placeholder="New Password"
+                        ></Input>
+
+                        <Input
+                            onChange={(e) => {
+                                setConfirmPassword(e.target.value);
+                            }}
+                            label={""}
+                            type="password"
+                            placeholder="Confirm Password"
+                        ></Input>
+            
+                        <div className="pt-10">
+                        <PrimaryButton
+                            onClick={async () => {
+                                if (password !== confirmPassword) {
+                                    alert("Passwords do not match");
+                                    window.location.reload();
+                                }
+                                const res = await axios.post(
+                                    `${BACKEND_URL}/api/v1/user/password-reset`,
+                                    {
+                                        password: password,
+                                        email: email,
+                                    }
+                                );
+                                localStorage.setItem("token", res.data.token);
+                                router.push("/");
+                            }}
+                            size="big"
+                        >
+                            Submit
+                        </PrimaryButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>}
     </div>
 }
