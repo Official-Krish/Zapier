@@ -13,29 +13,31 @@ interface EmailOptions {
   message: string;
 }
 
-const sendMail = async (options: EmailOptions): Promise<void> => {
-  const transporter: Transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: SMTP_PORT,
-    service: SMTP_SERVICE,
-    auth: {
-      user: SMTP_MAIL,
-      pass: SMTP_PASSWORD,
-    },
-  });
+// const sendMail = async (options: EmailOptions): Promise<void> => {
+//   const transporter: Transporter = nodemailer.createTransport({
+//     host: SMTP_HOST,
+//     port: SMTP_PORT,
+//     service: SMTP_SERVICE,
+//     auth: {
+//       user: SMTP_MAIL,
+//       pass: SMTP_PASSWORD,
+//     },
+//   });
 
-  const { email, subject, message } = options;
+//   const { email, subject, message } = options;
 
-  const mailOptions = {
-    from: SMTP_MAIL,
-    to: email,
-    subject,
-    html: message,
-  };
+//   const mailOptions = {
+//     from: SMTP_MAIL,
+//     to: email,
+//     subject,
+//     html: message,
+//   };
 
-  await transporter.sendMail(mailOptions);
+//   await transporter.sendMail(mailOptions);
+// };
+
+const sendMail = (options: EmailOptions) => {
+  console.log("Mail Send");
 };
-
-
 
 export default sendMail;

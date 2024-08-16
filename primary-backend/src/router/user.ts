@@ -98,7 +98,7 @@ router.post("/verify-user", async (req, res) => {
                 isVerified: true,
             },
         });
-        return res.status(200).json({ message: "registered successfully", token });
+        return res.status(200).json({ message: "registered successfully" });
     } catch (error) {
         res.status(400).json({ message: "You have entered the wrong code. Please try again." });
     }
@@ -138,6 +138,85 @@ router.post("/signin", async (req, res) => {
         console.error('Error authenticating user:', err);
     }
 });
+
+router.post("/send-verification-email", async (req, res) => {
+    const email = req.body.email;
+    const user = await prismaClient.user.findFirst({
+        where: {
+            email
+        }
+    });
+
+    if (!user) {
+        return res.status(400).json({error: "User not found"});
+    }
+    try{
+        const activationToken = createActivationToken(user);
+
+        const activationCode = activationToken.activationCode;
+
+        const data = { user: { name: user.name }, activationCode };
+
+        await sendMail({
+            email: user.email,
+            message: ` Hi <span>${user.name}</span> Your  activation Code is <p>${activationCode} </p> Please activate Your Account  `,
+            subject: "Email Verification",
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: `Please check your email: ${user.email} `,
+            token: activationToken.token,
+        });
+    } catch (error : any) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: `Internal server error: ${error.message}`,
+        });
+    }
+});
+
+router.post("/password-reset-verify", async (req, res) => {
+    const activationCode = req.body.activationCode;
+    try {
+        const decoded: JwtPayload = jwt.verify(activationCode, JWT_SECRET) as JwtPayload;
+        console.log("decoded", decoded);
+
+        const user = decoded.user;
+        console.log("user", user);
+
+        return res.status(200).json({ message: "Verification successful"});
+    } catch (error) {
+        res.status(400).json({ message: "You have entered the wrong code. Please try again."});
+    }
+})
+
+router.post("/password-reset", async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const hashedPassword = (await bcrypt.hash(
+        password,
+        10
+    )) as unknown as string;
+    try{
+        const user = await prismaClient.user.update({
+            where: {
+                email
+            },
+            data: {
+                password: hashedPassword
+            }
+        });
+        const token = jwt.sign({
+            id: user.id,
+        }, JWT_SECRET);
+
+        res.status(200).json({ message: "Password reset successful", token });
+    } catch (error) {
+        res.status(400).json({ message: "Password reset failed"});
+    }
+})
 
 
 router.get("/", authMiddleware, async (req, res) => {
