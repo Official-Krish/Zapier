@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { BACKEND_URL, HOOKS_URL } from "../config";
 import { useRouter } from "next/navigation";
 import { DarkButton } from "../components/buttons/DarkBtn";
-import { Appbar } from "../components/Appbar";
 import { LinkButton } from "../components/buttons/LinkBtn";
 
 interface Zap {
@@ -60,7 +59,6 @@ export default function() {
     const router = useRouter();
     
     return <div>
-        <Appbar />
         <div className="flex justify-center pt-8">
             <div className="max-w-screen-lg	 w-full">
                 <div className="flex justify-between pr-8 ">

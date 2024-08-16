@@ -1,6 +1,4 @@
 "use client";
-
-import { Appbar } from "@/app/components/Appbar";
 import { PrimaryButton } from "@/app/components/buttons/primaryBtn";
 import { Input } from "@/app/components/input";
 import { ZapCell } from "@/app/components/zapCell";
@@ -44,7 +42,6 @@ export default function() {
     const [selectedModalIndex, setSelectedModalIndex] = useState<null | number>(null);
 
     return <div>
-        <Appbar />
         <div className="flex justify-end bg-slate-200 p-4">
             <PrimaryButton onClick={async () => {
                 if (!selectedTrigger?.id) {

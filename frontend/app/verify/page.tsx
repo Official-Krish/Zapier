@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/Context";
 import { useRouter } from "next/navigation";
-import { Appbar } from "../components/Appbar";
 import { Input } from "../components/input";
 import { PrimaryButton } from "../components/buttons/primaryBtn";
 import { BACKEND_URL } from "../config";
@@ -18,7 +17,6 @@ export default function () {
 
   return (
     <div>
-      <Appbar />
       <div className="flex justify-center">
         <div className="flex pt-8 max-w-4xl">
           <div className="flex-1 pt-6 pb-6 mt-12 px-4 border rounded w-96 h-80">

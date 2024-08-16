@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Appbar } from "../components/Appbar";
 import { CheckFeature } from "../components/checkFeature";
 import { Input } from "../components/input";
 import { PrimaryButton } from "../components/buttons/primaryBtn";
@@ -14,7 +13,6 @@ export default function() {
     const [password, setPassword] = useState("");
 
     return <div> 
-        <Appbar />
         <div className="flex justify-center">
             <div className="flex pt-8">
                 <div className="flex-1 pt-20 px-4">
