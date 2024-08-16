@@ -83,9 +83,8 @@ export default function () {
                             );
                             {res.status === 200 ? (
                                 setStep(3)):(
-                                <div className="text-center text-red-700">
-                                    <h1>Invalid code</h1>
-                                </div>
+                                alert("You have entered the wrong code. Please try again."),
+                                window.location.reload()
                             )}
                         }}
                     size="big"
@@ -125,26 +124,26 @@ export default function () {
                         ></Input>
             
                         <div className="pt-10">
-                        <PrimaryButton
-                            onClick={async () => {
-                                if (password !== confirmPassword) {
-                                    alert("Passwords do not match");
-                                    window.location.reload();
-                                }
-                                const res = await axios.post(
-                                    `${BACKEND_URL}/api/v1/user/password-reset`,
-                                    {
-                                        password: password,
-                                        email: email,
+                            <PrimaryButton
+                                onClick={async () => {
+                                    if (password !== confirmPassword) {
+                                        alert("Passwords do not match");
+                                        window.location.reload();
                                     }
-                                );
-                                localStorage.setItem("token", res.data.token);
-                                router.push("/");
-                            }}
-                            size="big"
-                        >
-                            Submit
-                        </PrimaryButton>
+                                    const res = await axios.post(
+                                        `${BACKEND_URL}/api/v1/user/password-reset`,
+                                        {
+                                            password: password,
+                                            email: email,
+                                        }
+                                    );
+                                    localStorage.setItem("token", res.data.token);
+                                    router.push("/");
+                                }}
+                                size="big"
+                            >
+                                Submit
+                            </PrimaryButton>
                         </div>
                     </div>
                 </div>

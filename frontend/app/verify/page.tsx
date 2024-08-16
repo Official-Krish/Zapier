@@ -49,9 +49,8 @@ export default function () {
                     localStorage.setItem("token", res.data.token),
                     router.push("/"))
                     :(
-                    <div className="text-center text-red-700">
-                      <h1>Invalid code</h1>
-                    </div>
+                    alert("You have entered the wrong code. Please try again."),
+                    window.location.reload()
                   )}
                 }}
                 size="big"
