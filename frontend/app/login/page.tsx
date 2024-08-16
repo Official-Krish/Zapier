@@ -37,6 +37,11 @@ export default function() {
                     <Input onChange={e => {
                         setPassword(e.target.value)
                     }} label={"Password"} type="password" placeholder="Password"></Input>
+                    <div className="pt-4">
+                        <div className="text-red-500 cursor-pointer" onClick={() => {
+                            router.push("/forgotPassword")
+                        }}>Forgot Password?</div>
+                    </div>
 
                     <div className="pt-4">
                         <PrimaryButton onClick={async () => {

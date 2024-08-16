@@ -31,7 +31,7 @@ export const Appbar = () => {
                     </div>
                 </>
             ) : (
-                <div>
+                <div className="cursor-pointer" onClick={() => router.push("/")}>
                     Zapier
                 </div>
             )}
