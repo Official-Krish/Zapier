@@ -82,7 +82,7 @@ export default function () {
                                 }
                             );
                             {res.status === 200 ? (
-                                setStep(3)):(
+                                setStep(2)):(
                                 alert("You have entered the wrong code. Please try again."),
                                 window.location.reload()
                             )}
@@ -138,7 +138,7 @@ export default function () {
                                         }
                                     );
                                     localStorage.setItem("token", res.data.token);
-                                    router.push("/");
+                                    router.push("/login");
                                 }}
                                 size="big"
                             >

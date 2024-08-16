@@ -47,7 +47,7 @@ export default function () {
                   );
                   {res.status === 200 ? (
                     localStorage.setItem("token", res.data.token),
-                    router.push("/"))
+                    router.push("/login"))
                     :(
                     alert("You have entered the wrong code. Please try again."),
                     window.location.reload()
