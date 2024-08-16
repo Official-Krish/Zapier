@@ -26,7 +26,7 @@ export const Appbar = () => {
                         <Menu />
                     </div>
                     {sidebarOpen && <Sidebar onClose={toggleSideBar} />}
-                    <div>
+                    <div className="cursor-pointer" onClick={() => router.push("/")}>
                         Zapier
                     </div>
                 </>

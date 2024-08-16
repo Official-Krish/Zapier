@@ -25,7 +25,7 @@ export default function () {
             <h1 className="font-semibold text-2xl text-center ">
               Verify your Account
             </h1>
-            <div className="pt-8"></div>
+            <div className="pt-8">We've sent a verification code to your email address. Please enter the code below to confirm your identity.</div>
             <Input
               onChange={(e) => {
                 setActivationCode(e.target.value);
@@ -45,7 +45,14 @@ export default function () {
                       activationCode: activationCode,
                     }
                   );
-                  router.push("/login");
+                  {res.status === 200 ? (
+                    localStorage.setItem("token", res.data.token),
+                    router.push("/"))
+                    :(
+                    <div className="text-center text-red-700">
+                      <h1>Invalid code</h1>
+                    </div>
+                  )}
                 }}
                 size="big"
               >
