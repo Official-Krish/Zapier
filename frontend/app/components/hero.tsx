@@ -54,6 +54,16 @@ export const Hero = () => {
             <HeroVideo/>
         </div>
 
+        <div className="flex justify-center items-center pt-36">
+            <div className="text-6xl font-bold max-w-5xl text-center">
+                Get started quickly with these best-practice templates
+            </div>
+        </div>
+        <div className="py-10 flex justify-center items-center">
+            <div className="text-2xl font-normal max-w-5xl text-center text-slate-950">
+                No need to start from scratch. In just a few minutes, you can use <a className="underline cursor-pointer">Interfaces</a>, <a className="underline cursor-pointer">Tables</a>, and <a className="underline cursor-pointer" onClick={() => {router.push("/dashboard")}}>Zaps</a> to create complete solutions and reclaim countless hours of your time.
+            </div>
+        </div>
 
         <div className="flex justify-center pt-8">
             <div>
@@ -97,7 +107,7 @@ export const Hero = () => {
             <div className="pl-6">
                 <Card imageLink="https://res.cloudinary.com/zapier-media/image/upload/q_auto/f_auto/v1718318308/Template%20Module%20Thumbnails/Thumbnail_3_s9pudi.png" 
                 logo="https://zapier-images.imgix.net/storage/developer_cli/3a8f13d0fe5c9b2bbe7a7191a433ac1d.png?auto=format&ixlib=react-9.8.1&fit=crop&q=50&w=60&h=60&dpr=2"
-                title="Summarize a Slack thread with ChatGPT and create a task for it in Asana"
+                title="Turn slack messages into prioritized task list"
                 />
             </div>
             
