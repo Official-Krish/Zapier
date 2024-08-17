@@ -113,7 +113,7 @@ export const Hero = () => {
             
         </div>
         <div className="flex justify-center pt-36">
-            <img className="w-3/5" src="https://res.cloudinary.com/zapier-media/image/upload/q_auto/v1685628568/Zapier%20logos/zapier-logo-no-space_hihmgg.svg"/>
+            <img className="w-2/3" src="https://res.cloudinary.com/zapier-media/image/upload/q_auto/v1685628568/Zapier%20logos/zapier-logo-no-space_hihmgg.svg"/>
         </div>
         
     </div>
