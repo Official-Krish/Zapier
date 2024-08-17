@@ -26,14 +26,10 @@ export const Appbar = () => {
                         <Menu />
                     </div>
                     {sidebarOpen && <Sidebar onClose={toggleSideBar} />}
-                    <div className="cursor-pointer" onClick={() => router.push("/")}>
-                        Zapier
-                    </div>
+                    <img className="w-32 pl-4 cursor-pointer" src ="https://res.cloudinary.com/zapier-media/image/upload/q_auto/v1685628568/Zapier%20logos/zapier-logo-no-space_hihmgg.svg" onClick={() => router.push("/")}/>
                 </>
             ) : (
-                <div className="cursor-pointer" onClick={() => router.push("/")}>
-                    Zapier
-                </div>
+                <img className="w-32 pl-4 cursor-pointer" src ="https://res.cloudinary.com/zapier-media/image/upload/q_auto/v1685628568/Zapier%20logos/zapier-logo-no-space_hihmgg.svg" onClick={() => router.push("/")}/>
             )}
             </div>
             </div>
