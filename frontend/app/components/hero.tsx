@@ -6,6 +6,7 @@ import { Features } from "./features"
 import { GoogleIcon } from "./icons/google"
 import { HeroVideo } from "./heroVideo"
 import  Card from "./card"
+import Footer from "./footer"
 
 export const Hero = () => {
     const router = useRouter();
@@ -115,6 +116,6 @@ export const Hero = () => {
         <div className="flex justify-center pt-36">
             <img className="w-2/3" src="https://res.cloudinary.com/zapier-media/image/upload/q_auto/v1685628568/Zapier%20logos/zapier-logo-no-space_hihmgg.svg"/>
         </div>
-        
+        <Footer/>
     </div>
 }

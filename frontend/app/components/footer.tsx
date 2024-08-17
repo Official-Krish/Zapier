@@ -1,5 +1,5 @@
 const Footer = () => {
-    return <div className="px-48 flex justify-between py-20">
+    return <div className="px-48 flex justify-between mt-32 pb-20">
         <div>
             <div className="flex">
                 <div className="text-xs text-slate-900 font-normal flex">

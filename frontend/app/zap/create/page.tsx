@@ -1,5 +1,6 @@
 "use client";
 import { PrimaryButton } from "@/app/components/buttons/primaryBtn";
+import Footer from "@/app/components/footer";
 import { Input } from "@/app/components/input";
 import { ZapCell } from "@/app/components/zapCell";
 import { BACKEND_URL } from "@/app/config";
@@ -116,6 +117,7 @@ export default function() {
             }
             setSelectedModalIndex(null);
         }}  index={selectedModalIndex} />}
+        <Footer/>
     </div>            
 
 }
