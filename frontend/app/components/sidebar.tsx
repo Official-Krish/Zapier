@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import { PrimaryButton } from "./buttons/primaryBtn"
 import { Cross } from "./icons/cross"
 import { Plus } from "./icons/plus"
+import ZapLogo from "./logo";
 
 interface SidebarProps {
     onClose: () => void; 
@@ -15,7 +16,7 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
             <div className="flex justify-end px-3 cursor-pointer" onClick={onClose}>
                 <Cross/>
             </div>
-            <div className="px-6 py-4 text-3xl font-medium border-b">Zapier</div>
+            <div className="pl-7"><ZapLogo height={120} width={120}/></div>
             <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
             <ul className="space-y-2 font-medium">
 

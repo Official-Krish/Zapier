@@ -25,7 +25,12 @@ export const Appbar = () => {
                     <div onClick={toggleSideBar} className="cursor-pointer px-4 py-1">
                         <Menu />
                     </div>
-                    {sidebarOpen && <Sidebar onClose={toggleSideBar} />}
+                    <div
+                        className={`fixed top-0 left-0 w-64 h-screen bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                        >
+                        {<Sidebar onClose={toggleSideBar} />}
+                    </div>
+                    
                     <img className="w-32 pl-4 cursor-pointer" src ="https://res.cloudinary.com/zapier-media/image/upload/q_auto/v1685628568/Zapier%20logos/zapier-logo-no-space_hihmgg.svg" onClick={() => router.push("/")}/>
                 </>
             ) : (
