@@ -7,8 +7,17 @@ import { GoogleIcon } from "./icons/google"
 import { HeroVideo } from "./heroVideo"
 import  Card from "./card"
 import Footer from "./footer"
+import { BACKEND_URL } from "../config"
 
 export const Hero = () => {
+    const handleGoogleLogin = async () => {
+        try {
+            // Redirect the user to the Google OAuth endpoint
+            window.location.href = "http://localhost:3000/api/v1/user/auth/google";
+        } catch (error) {
+            console.error("Failed to initiate Google login:", error);
+        }
+    };
     const router = useRouter();
     return <div>
         <div className="flex justify-center items-center">
@@ -36,7 +45,7 @@ export const Hero = () => {
                     </PrimaryButton>
                 
                     <div className="pl-4">
-                        <SecondaryButton size="big" logo = {<GoogleIcon/>} onClick={() => {}}>
+                        <SecondaryButton size="big" logo = {<GoogleIcon/>} onClick={handleGoogleLogin}>
                             Start free with Google 
                         </SecondaryButton>
                     </div>
