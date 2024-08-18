@@ -7,8 +7,17 @@ import bcrypt from "bcrypt";
 import { JWT_SECRET } from "../config";
 import { createActivationToken } from "../utils/activationtoken";
 import sendMail from "../utils/sendEmail";
+import passport from "passport";
 
 const router = Router()
+
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+    const { user, token } = req.user as any;
+    res.redirect(`http://localhost:3001/dashboard?token=${token}`);
+  });
+  
 
 router.post("/signup", async(req, res) => {
     const body = req.body;
