@@ -7,12 +7,15 @@ import { GoogleIcon } from "./icons/google"
 import { HeroVideo } from "./heroVideo"
 import  Card from "./card"
 import Footer from "./footer"
-import { BACKEND_URL } from "../config"
 
 export const Hero = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if(token){
+        localStorage.setItem("token", token);
+    }
     const handleGoogleLogin = async () => {
         try {
-            // Redirect the user to the Google OAuth endpoint
             window.location.href = "http://localhost:3000/api/v1/user/auth/google";
         } catch (error) {
             console.error("Failed to initiate Google login:", error);
