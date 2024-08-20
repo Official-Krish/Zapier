@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckFeature } from "../components/checkFeature";
 import { Input } from "../components/input";
@@ -7,6 +7,8 @@ import { PrimaryButton } from "../components/buttons/primaryBtn";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useAuth } from "../context/Context";
+import { GoogleAuth } from "../components/buttons/googleAuth";
+
 
 export default function() {
     const router = useRouter();
@@ -14,7 +16,27 @@ export default function() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { token, setToken } = useAuth();
-
+    const handleGoogleLogin = async () => {
+        try {
+            window.location.href = "http://localhost:3000/api/v1/user/auth/google";
+        } catch (error) {
+            console.error("Failed to initiate Google login:", error);
+        }
+    };
+    useEffect(() => {
+        const url = new URL(window.location.href);
+        const token = url.searchParams.get('token');
+    
+        if (token) {
+          localStorage.setItem('token', token);
+    
+            if (url.searchParams.has('token')) {
+                url.searchParams.delete('token');
+                const newUrl = url.toString().split('?')[0]; 
+                router.replace(newUrl); 
+            }
+        }
+    }, [router]);
     return <div> 
         <div className="flex justify-center">
             <div className="flex pt-8 max-w-4xl">
@@ -32,6 +54,9 @@ export default function() {
 
                 </div>
                 <div className="flex-1 pt-6 pb-6 mt-12 px-4 border rounded">
+                    <GoogleAuth onClick={() => {
+                        handleGoogleLogin();
+                    }}></GoogleAuth>
                     <Input label={"Name"} onChange={e => {
                         setName(e.target.value)
                     }} type="text" placeholder="Your name"></Input>
