@@ -8,17 +8,69 @@ import { JWT_SECRET } from "../config";
 import { createActivationToken } from "../utils/activationtoken";
 import sendMail from "../utils/sendEmail";
 import passport from "passport";
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+
 
 const router = Router()
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
-    const { user, token } = req.user as any;
-    res.redirect(`http://localhost:3001/dashboard?token=${token}`);
-  });
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID!,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    callbackURL: 'http://localhost:3000/api/v1/user/auth/google/callback',
+  }, async (accessToken, refreshToken, profile, done) => {
+    const { id: googleId, emails, displayName: name } = profile;
+    const email = emails?.[0].value;
   
+    try {
+      let user = await prismaClient.user.findFirst({ where: { googleId } });
+  
+        if (!user) {
+            user = await prismaClient.user.create({
+                data: {
+                    googleId,
+                    email: email!,
+                    password: "", 
+                    name,
+                    isVerified: true, 
+                },
+            });
+        } else {
+            user = await prismaClient.user.update({
+                where: { email },
+                data: { googleId },
+            });
+        }
+  
+        const tokenPayload = { userId: user.id };
+        const token = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '1h' });
+    
+        done(null, { user, token });
+    } catch (err) {
+      done(err);
+    }
+}));
 
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+  
+passport.deserializeUser((obj, done) => {
+done(null, obj as Express.User);
+});
+
+router.get('/auth/google',
+    passport.authenticate('google', { scope: ['profile', 'email'], session: false })
+);
+  
+router.get('/auth/google/callback',
+passport.authenticate('google', { failureRedirect: '/', session: false }),
+(req, res) => {
+    // Successful authentication, generate a JWT and send it to the client
+    const token = jwt.sign({ user: req.user }, JWT_SECRET, { expiresIn: '1h' });
+    res.redirect(`http://localhost:3001/?token=${token}`);
+});
+  
+  
 router.post("/signup", async(req, res) => {
     const body = req.body;
     const parsedData = SignupSchema.safeParse(body);
