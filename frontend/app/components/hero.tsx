@@ -7,13 +7,10 @@ import { GoogleIcon } from "./icons/google"
 import { HeroVideo } from "./heroVideo"
 import  Card from "./card"
 import Footer from "./footer"
+import { useEffect } from "react"
 
 export const Hero = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    if(token){
-        localStorage.setItem("token", token);
-    }
+    const router = useRouter();
     const handleGoogleLogin = async () => {
         try {
             window.location.href = "http://localhost:3000/api/v1/user/auth/google";
@@ -21,7 +18,21 @@ export const Hero = () => {
             console.error("Failed to initiate Google login:", error);
         }
     };
-    const router = useRouter();
+    useEffect(() => {
+        const url = new URL(window.location.href);
+        const token = url.searchParams.get('token');
+    
+        if (token) {
+          localStorage.setItem('token', token);
+    
+            if (url.searchParams.has('token')) {
+                url.searchParams.delete('token');
+                const newUrl = url.toString().split('?')[0]; 
+                router.replace(newUrl); 
+            }
+        }
+    }, [router]);
+    
     return <div>
         <div className="flex justify-center items-center">
             <div className="text-6xl font-bold text-center mt-20 max-w-4xl">
