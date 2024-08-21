@@ -5,6 +5,7 @@ import { BACKEND_URL, HOOKS_URL } from "../config";
 import { useRouter } from "next/navigation";
 import { DarkButton } from "../components/buttons/DarkBtn";
 import { LinkButton } from "../components/buttons/LinkBtn";
+import { Loader2 } from "lucide-react";
 
 interface Zap {
     "id": string,
@@ -71,7 +72,7 @@ export default function() {
                 </div>
             </div>
         </div>
-        {loading ? "Loading..." : <div className="flex justify-center"> <ZapTable zaps={zaps} /> </div>}
+        {loading ? <div className="flex justify-center items-center pt-32"> <Loader2 /> </div> : <div className="flex justify-center"> <ZapTable zaps={zaps} /> </div>}
     </div>
 }
 
