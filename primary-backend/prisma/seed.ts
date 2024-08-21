@@ -26,6 +26,13 @@ async function main() {
             Image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4nd82eFk5SaBPRIeCpmwL7A4YSokA-kXSmw&s"
         }
     })
+    await prismaClient.availableAction.create({
+        data: {
+            id: "update-Gsheet",
+            name: "Google Sheet",
+            Image: "https://cdn.prod.website-files.com/655b60964be1a1b36c746790/655b60964be1a1b36c746d61_646e04919c3fa7c2380ae837_Google_Sheets_logo_(2014-2020).svg.png"
+        }
+    })
     
 }
 

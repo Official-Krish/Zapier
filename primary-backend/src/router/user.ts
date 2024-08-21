@@ -67,7 +67,13 @@ passport.authenticate('google', { failureRedirect: '/', session: false }),
 (req, res) => {
     // Successful authentication, generate a JWT and send it to the client
     const token = jwt.sign({ user: req.user }, JWT_SECRET, { expiresIn: '1h' });
-    res.redirect(`http://localhost:3001/?token=${token}`);
+    res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 3600000,
+    });
+    res.redirect('http://localhost:3001/');
 });
   
   
